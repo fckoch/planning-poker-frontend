@@ -7,6 +7,7 @@ import { PokerService } from './poker.service';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  users: string[] = [];
 
 
   constructor(

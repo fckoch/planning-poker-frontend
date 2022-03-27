@@ -1,0 +1,58 @@
+.page-layout {
+  height: 100%;
+  width: 100%;
+
+  padding: 16px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.header {
+  text-align: center;
+}
+
+.content {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+.table-wrapper {
+  display: grid;
+  border-radius: 8px;
+  grid-template-columns: repeat(5, 100px);
+  grid-template-rows: 100px 200px 100px;
+  justify-items: center;
+  align-items: center;
+}
+
+.table {
+  display: grid;
+  background-color: grey;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-items: center;
+}
+
+.player {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background-color: antiquewhite;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.left {
+  border-radius: 8px 0 0 8px;
+}
+
+.right {
+  border-radius: 0 8px 8px 0;
+}
+
+
