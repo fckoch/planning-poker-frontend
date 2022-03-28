@@ -1,10 +1,18 @@
 .page-layout {
   height: 100%;
   width: 100%;
-
   padding: 16px;
   display: grid;
-  grid-template-rows: auto 1fr;
+  justify-content: center;
+  grid-template-rows: auto 50px 1fr;
+}
+
+.name-input-wrapper {
+  display: grid;
+
+  .name-input {
+    font-size: 20px;
+  }
 }
 
 .header {
@@ -35,16 +43,28 @@
   justify-items: center;
 }
 
-.player {
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  background-color: antiquewhite;
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+.player-wrapper {
+  display: grid;
+  row-gap: 8px;
+  justify-items: center;
+
+  .player {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    background-color: antiquewhite;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .player-name {
+    min-height: 18px;
+    min-width: 100px;
+    text-align: center;
+  }
 }
 
 .left {

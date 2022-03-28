@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { PokerService } from './poker.service';
+import { FormsModule } from '@angular/forms';
 
 const config: SocketIoConfig = { url: 'http://localhost:8899', options: {} };
 
@@ -15,6 +16,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8899', options: {} };
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     SocketIoModule.forRoot(config)
   ],
   providers: [
