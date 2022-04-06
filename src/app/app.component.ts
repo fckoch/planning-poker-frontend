@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PokerService } from './poker.service';
-import { Player } from './user';
+import { Player } from './player';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +9,10 @@ import { Player } from './user';
 })
 export class AppComponent implements OnInit, OnDestroy {
   players: { [key: number]: Player } = {};
-  playerCurrentPosition: number = null;
   player: Player = {
     name: null,
-    vote: null
+    vote: null,
+    position: null
   }
 
   constructor(
@@ -20,8 +20,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    // this.pokerService.sendMessage('Olá');
-    console.log(this.players)
+    this.pokerService.listenPlayersUpdate().subscribe((players: Player[]) => {
+      this.players = players;
+    });
   }
 
   ngOnDestroy(): void {
@@ -29,17 +30,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   changePosition(position: number): void {
-    if (this.playerCurrentPosition) {
-      this.updatePlayer(this.playerCurrentPosition, null, null);
-    }
-    this.updatePlayer(position, this.player.name, this.player.vote);
-    this.playerCurrentPosition = position;
+    this.player.position = position;
+    const player = JSON.stringify(this.player);
+    this.pokerService.sendMessage('select place', player);
   }
 
-  updatePlayer(position: number, name: string, vote: number): void {
+  updatePlayer(name: string, vote: number, position: number): void {
     this.players[position] = {
       name: name,
-      vote: vote
+      vote: vote,
+      position: position
     }
   }
 
