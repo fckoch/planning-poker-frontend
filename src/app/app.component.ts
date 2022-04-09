@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PokerService } from './poker.service';
-import { Player } from './player';
+import { ChangePositionMessage, Player } from './player';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +9,14 @@ import { Player } from './player';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  players: { [key: number]: Player } = {};
+  tableSize: 8;
+  players: Player[]  = [];
   player: Player = {
     name: null,
     vote: null,
+    uuid: uuidv4(),
     position: null
-  }
+  };
 
   constructor(
     private readonly pokerService: PokerService
@@ -21,26 +24,41 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.pokerService.listenPlayersUpdate().subscribe((players: Player[]) => {
-      this.players = players;
+      this.createPlayers();
+      this.mapPlayersToView(players);
     });
   }
 
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+  mapPlayersToView(players: Player[]): void {
+    players.forEach(p => {
+      this.players[p.position] = p;
+    });
   }
 
-  changePosition(position: number): void {
-    this.player.position = position;
-    const player = JSON.stringify(this.player);
-    this.pokerService.sendMessage('select place', player);
-  }
-
-  updatePlayer(name: string, vote: number, position: number): void {
-    this.players[position] = {
-      name: name,
-      vote: vote,
-      position: position
+  createPlayers(): void {
+    this.players = [];
+    for (let i = 0; i < 8; i++) {
+      const player: Player = {
+        name: '',
+        vote: 0,
+        uuid: '',
+        position: i
+      };
+      this.players = [...this.players, player];
     }
+  }
+
+  ngOnDestroy(): void {
+
+  }
+
+  changePosition(targetPosition: number): void {
+    const changePositionMessage: ChangePositionMessage = {
+      player: this.player,
+      targetPosition: targetPosition
+    }
+    const changePositionMessageStr = JSON.stringify(changePositionMessage);
+    this.pokerService.sendMessage('select place', changePositionMessageStr);
   }
 
 }
